@@ -5,12 +5,16 @@ import json
 import osproc
 import os
 
-const REPO = "github.com/Mythical-Forest-Collective/nim-commit-test.git"
+const GIT_URL = "github.com"
+const USERNAME = "Mythical-Forest-Collective"
+const PROJECT = "nim-commit-test"
+
+const REPO = GIT_URL & "/" & USERNAME & "/" & PROJECT & ".git"
 
 var REPO_URL = "https://" & REPO
 
 if getEnv("GITHUB_TOKEN") != "": # Github Actions-specific, can be modified if other hosts have something similar
-  REPO_URL = "https://" & getEnv("GITHUB_TOKEN") & "@" & REPO
+  REPO_URL = "https://" & USERNAME & ":" & getEnv("GITHUB_TOKEN") & "@" & REPO
 
 proc semver(versionString: string): seq[int] = split(versionString, '.', 3).map(parseInt)
 
@@ -47,14 +51,11 @@ if currPkgVerStr == prevPkgVerStr:
       if currPkgVer[2] <= prevPkgVer[2]:
         quit("No new version! Not creating a tag for the last version!", 0)
 
-echo "\n\n"
 
-echo execCmdEx(fmt "GIT_COMMITTER_DATE=\"$(git show --format=%aD | head -1)\" git tag -a v{prevPkgVerStr} {prevCommit} -am \"Release v{prevPkgVerStr} as commit hash \\`{prevCommit}\\`\"",
+discard execCmdEx(fmt "GIT_COMMITTER_DATE=\"$(git show --format=%aD | head -1)\" git tag -a v{prevPkgVerStr} {prevCommit} -am \"Release v{prevPkgVerStr} as commit hash \\`{prevCommit}\\`\"",
     workingDir = ".cache/head").output
 
-echo "\n\n"
-
-echo execCmdEx(fmt"git push origin v{prevPkgVerStr}",
+discard execCmdEx(fmt"git push origin v{prevPkgVerStr}",
     workingDir = ".cache/head").output
 
 discard execCmd("rm -rf .cache")
