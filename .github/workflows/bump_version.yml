@@ -28,7 +28,10 @@ jobs:
       - name: Setup Nim environment
         uses: jiro4989/setup-nim-action@v1.1.4
 
-      - uses: fregante/setup-git-user@v1
+      - name: Set git credentials
+        run: |
+          git config --global user.name github-actions[bot]
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
       # Runs a set of commands using the runners shell
       - name: Run the version releaser.
