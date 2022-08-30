@@ -4,7 +4,8 @@ import sequtils
 import json
 import osproc
 
-const REPO = "https://github.com/Mythical-Forest-Collective/Nim-Commit-Test"
+const REPO = "https://github.com/Mythical-Forest-Collective/nim-commit-test"
+
 proc semver(versionString:string):seq[int] = split(versionString, '.', 3).map(parseInt)
 
 discard execCmd("rm -rf .cache")
