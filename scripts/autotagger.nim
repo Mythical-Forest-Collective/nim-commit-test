@@ -11,10 +11,7 @@ const PROJECT = "nim-commit-test"
 
 const REPO = GIT_URL & "/" & USERNAME & "/" & PROJECT & ".git"
 
-var REPO_URL = "https://" & REPO
-
-if getEnv("GITHUB_TOKEN") != "": # Github Actions-specific, can be modified if other hosts have something similar
-  REPO_URL = "https://" & USERNAME & ":" & getEnv("GITHUB_TOKEN") & "@" & REPO
+let REPO_URL = "https://" & REPO
 
 proc semver(versionString: string): seq[int] = split(versionString, '.', 3).map(parseInt)
 
