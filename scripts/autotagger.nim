@@ -15,16 +15,16 @@ let REPO_URL = "https://" & REPO
 
 proc semver(versionString: string): seq[int] = split(versionString, '.', 3).map(parseInt)
 
-discard execCmd("rm -rf .cache")
+discard execCmdEx("rm -rf .cache")
 
 
-discard execCmd(fmt"git clone {REPO_URL} .cache/head") # Clone the head
+discard execCmdEx(fmt"git clone {REPO_URL} .cache/head") # Clone the head
 var prevCommit = execCmdEx("git rev-parse HEAD^",
     workingDir = ".cache/head").output.replace("\n", "") # Get previous commit hash
 
 
-discard execCmd(fmt"git clone -n {REPO_URL} .cache/prevCommit") # Clone new repo so we can change to prev commit
-echo fmt"git checkout {prevCommit}"
+discard execCmdEx(fmt"git clone -n {REPO_URL} .cache/prevCommit") # Clone new repo so we can change to prev commit
+
 discard execCmdEx(fmt"git checkout {prevCommit}",
     workingDir = ".cache/prevCommit")
 
@@ -55,6 +55,6 @@ discard execCmdEx(fmt "GIT_COMMITTER_DATE=\"$(git show --format=%aD | head -1)\"
 discard execCmdEx(fmt"git push origin v{prevPkgVerStr}",
     workingDir = ".cache/head").output
 
-discard execCmd("rm -rf .cache")
+discard execCmdEx("rm -rf .cache")
 
 quit("Created tag for last version!", 0)
