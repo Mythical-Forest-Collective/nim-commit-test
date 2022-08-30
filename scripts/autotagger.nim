@@ -1,9 +1,10 @@
+#!/usr/bin/env -S nim c --run scripts/autotagger
+
 import strformat
 import strutils
 import sequtils
 import json
 import osproc
-import os
 
 const GIT_URL = "github.com"
 const USERNAME = "Mythical-Forest-Collective"
