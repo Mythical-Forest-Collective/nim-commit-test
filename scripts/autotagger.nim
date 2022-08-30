@@ -37,10 +37,11 @@ var prevPkgVer = prevPkgVerStr.semver
 echo currPkgVer, ", ", prevPkgVer
 
 
-if currPkgVer[0] <= prevPkgVer[0]:
-  if currPkgVer[1] <= prevPkgVer[1]:
-    if currPkgVer[2] <= prevPkgVer[2]:
-      quit("No new version! Not creating a tag for the last version!", 0)
+if currPkgVerStr == prevPkgVerStr:
+  if currPkgVer[0] <= prevPkgVer[0]:
+    if currPkgVer[1] <= prevPkgVer[1]:
+      if currPkgVer[2] <= prevPkgVer[2]:
+        quit("No new version! Not creating a tag for the last version!", 0)
 
 echo "\n\n"
 
