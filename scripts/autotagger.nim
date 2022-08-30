@@ -1,10 +1,17 @@
+import strformat
 import json
 import osproc
 
-discard execCmd("git clone https://github.com/Mythical-Forest-Collective/Nim-Commit-Test .cache/head")
+const REPO = "https://github.com/Mythical-Forest-Collective/Nim-Commit-Test"
 
-let currentNimblePkgData = execCmdEx("nimble dump --json", workingDir=".cache/head").output
+discard execCmd(fmt"git clone {REPO} .cache/head") # Clone the head
+let prevCommit = execCmdEx("git rev-parse HEAD^", workingDir=".cache/head").output # Get previous commit hash
 
-echo currentNimblePkgData
+discard execCmd(fmt"git clone {REPO} -b prevCommit .cache/{prevCommit}") # Clone from commit
+
+let currPkgVer = execCmdEx("nimble dump --json", workingDir=".cache/head").output.parseJson()["version"]
+let prevPkgVer = execCmdEx("nimble dump --json", workingdir=fmt".cache/{prevCommit}").output.parseJson()["version"]
+
+echo currPkgVer, ", ", prevCommit
 
 discard execCmd("rm -rf .cache")
