@@ -37,7 +37,7 @@ if not currPkgVer[0] > prevPkgVer[0]:
 
 echo "\n\n"
 
-echo execCmdEx(fmt "GIT_COMMITTER_DATE=\"$(git show --format=%aD | head -1)\" git tag -a v{prevPkgVerStr} {prevCommit} -am \"Release v{prevPkgVerStr} as commit hash `{prevCommit}`\"", workingDir=".cache/head").output
+echo execCmdEx(fmt "GIT_COMMITTER_DATE=\"$(git show --format=%aD | head -1)\" git tag -a v{prevPkgVerStr} {prevCommit} -am \"Release v{prevPkgVerStr} as commit hash \\`{prevCommit}\\`\"", workingDir=".cache/head").output
 
 echo "\n\n"
 
