@@ -11,10 +11,8 @@ discard execCmd("rm -rf .cache")
 
 
 discard execCmd(fmt"git clone {REPO} .cache/head") # Clone the head
-var prevCommit = execCmdEx("git rev-parse HEAD^", workingDir=".cache/head").output # Get previous commit hash
-prevCommit.removeSuffix
+var prevCommit = execCmdEx("git rev-parse HEAD^", workingDir=".cache/head").output.replace("\n", "") # Get previous commit hash
 
-echo "\n", prevCommit, "\n"
 
 discard execCmd(fmt"git clone -n {REPO} .cache/prevCommit") # Clone new repo so we can change to prev commit
 echo fmt"git checkout {prevCommit}"
